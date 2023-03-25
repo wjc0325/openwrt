@@ -18,3 +18,4 @@
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 git clone https://github.com/kenzok8/openwrt-packages.git  package/openwrt-packages
 git clone https://github.com/kenzok8/small.git  package/openwrt-small
+git clone https://github.com/jerrykuku/luci-theme-argon.git
