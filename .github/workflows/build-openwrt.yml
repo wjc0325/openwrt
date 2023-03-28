@@ -53,8 +53,6 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-        sudo apt-get install gcc-multilib
-        sudo apt-get install g++-multilib
 
     - name: Clone source code
       working-directory: /workdir
