@@ -21,3 +21,4 @@ sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
 git clone https://github.com/jerrykuku/luci-theme-argon.git
 git clone https://github.com/jerrykuku/lua-maxminddb.git
 git clone https://github.com/jerrykuku/luci-app-vssr.git
+git clone https://github.com/aria2/aria2.git
