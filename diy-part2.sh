@@ -1,23 +1,29 @@
 #!/bin/bash
-#
-# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-# File name: diy-part2.sh
-# Description: OpenWrt DIY script part 2 (After Update feeds)
-#
+# =============================================================================
+# diy-part2.sh - OpenWrt 自定义脚本 (第二阶段)
+# 执行时机：在 ./scripts/feeds update -a && ./scripts/feeds install -a 之后
+# 主要用途：添加第三方源、克隆插件、克隆主题
+# =============================================================================
 
-# Modify default IP
- sed -i 's/192.168.1.1/192.168.199.1/g' package/base-files/files/bin/config_generate
-#sed -i 's/luci-theme-bootstrap/luci-theme-argone/g' feeds/luci/collections/luci/Makefile
-# mkdir -p files/etc/hotplug.d/block && curl -fsSL https://raw.githubusercontent.com/281677160/openwrt-package/usb/block/10-mount > files/etc/hotplug.d/block/10-mount
-# sed -i 's/luci-theme-bootstrap/luci-theme-atmaterial/g' feeds/luci/collections/luci/Makefile
-# rm -rf ./feeds/luci/themes/luci-theme-argon git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
-# sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
-# xiaomimini
-# rm -rf feeds/luci/themes/luci-theme-argon
-# git clone https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
-# sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+echo "开始执行 diy-part2.sh ..."
+
+# 1. 添加第三方插件源 (例如 Lienol, PassWall 等)
+# 假设你已经在 feeds.conf.default 里加了，或者在这里动态添加
+# echo "src-git lienol https://github.com/Lienol/openwrt-package" >> feeds.conf.default
+# ./scripts/feeds update lienol
+# ./scripts/feeds install -a
+
+# 2. 克隆 Argon 主题 (必须在 part2，因为依赖 feeds 更新后的环境)
+rm -rf package/luci-theme-argon
+git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
+rm -rf package/luci-app-argon-config
+git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
+
+# 3. 克隆 PassWall (支持 Hysteria2/VLESS)
+# 如果源里没有，可以手动克隆
+# rm -rf package/luci-app-passwall
+# git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
+
+# 4. 其他插件 (Aria2, 去广告等通常直接在 menuconfig/.config 里选，不需要手动 git clone，除非源里没有)
+
+echo "diy-part2.sh 执行完毕！"
