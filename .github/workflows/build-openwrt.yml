@@ -55,7 +55,15 @@ jobs:
         sudo chown $USER:$GROUPS /workdir
         sudo apt install libfuse-dev
         
-    - name: Clone source code
+    # 在编译步骤前添加
+- name: Install Python 2.7
+  run: |
+    apt update && apt install -y python2.7 python2.7-dev
+    ln -s /usr/bin/python2.7 /usr/bin/python
+- name: Compile OpenWRT
+  run: |
+    export PYTHON=python2.7
+    make -j$(nproc)- name: Clone source code
       working-directory: /workdir
       run: |
         df -hT $PWD
